@@ -13,7 +13,7 @@
 					jqueryPath: "../lib/jquery.js",
 					uploadProgressPath: "../jquery.uploadProgress.js",
 					start:function(){},
-					uploading: function(upload) {$('#percents').html(upload.percents+'%');},
+					uploading: function(upload) {$('#percents').html(upload.percents+'%'); $('#progressbar').css({width: upload.percents+'%'});},
 					interval: 2000
 			    });
 			});

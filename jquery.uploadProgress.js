@@ -12,7 +12,6 @@
   options = $.extend({
     dataType: "json",
     interval: 2000,
-    progressBar: "#progressbar",
     progressUrl: "/progress",
     start: function() {},
     uploading: function() {},
@@ -88,25 +87,26 @@ jQuery.uploadProgress = function(e, options) {
     type: "GET",
     url: options.progressUrl + "?X-Progress-ID=" + options.uuid,
     dataType: options.dataType,
+    cache: false,
     success: function(upload) {
       if (upload.state == 'uploading') {
         upload.percents = Math.floor((upload.received / upload.size)*1000)/10;
-        
-        var bar = $.browser.safari ? $(options.progressBar, parent.document) : $(options.progressBar);
-        bar.css({width: upload.percents+'%'});
         options.uploading(upload);
       }
       
       if (upload.state == 'done' || upload.state == 'error') {
         window.clearTimeout(options.timer);
-        options.complete(upload);
       }
       
       if (upload.state == 'done') {
+        upload.percents = 100;
+        options.complete(upload);
         options.success(upload);
       }
       
       if (upload.state == 'error') {
+        upload.percents = Math.floor((upload.received / upload.size)*1000)/10;
+        options.complete(upload);
         options.error(upload);
       }
     }

@@ -1,4 +1,4 @@
-It can be used with apache upload progress module, nginx upload progress module or lighttpd, read more here: http://drogomir.com/blog/2008/6/18/upload-progress-bar-with-mod_passenger-and-apache
+It can be used with apache, nginx, lighttpd or cherokee using their respective upload-progress modules, read more here: http://drogomir.com/blog/2008/6/18/upload-progress-bar-with-mod_passenger-and-apache
 
 Usage:
 
@@ -35,44 +35,39 @@ then some css:
 and a bit of javascript:
 
 $(function() {
-    $('form').uploadProgress({
-		/* scripts locations for safari */
-		jqueryPath: "../lib/jquery.js",
-		uploadProgressPath: "../jquery.uploadProgress.js",
+  $('form').uploadProgress({
+    /* scripts locations for safari */
+    jqueryPath: "../lib/jquery.js",
+    uploadProgressPath: "../jquery.uploadProgress.js",
     /* function called each time bar is updated */
-		uploading: function(upload) {$('#percents').html(upload.percents+'%');},
-		/* selector or element that will be updated */
-		progressBar: "#progressbar",
-		/* progress reports url */
-		progressUrl: "/progress",
+    uploading: function(upload) {$('#percents').html(upload.percents+'%'); $('#progressbar').css({width: upload.percents+'%'});},
+    /* progress reports url */
+    progressUrl: "/progress",
     /* how often will bar be updated */
-		interval: 2000
-    });
+    interval: 2000
+  });
 });
 
 If you need to update the progress bar from a different domain or subdomain, liek if your upload server is different from your normal web server, you can try the JSON-P protocol, like this:
 $(function() {
     $('form').uploadProgress({
-		/* scripts locations for safari */
-		jqueryPath: "../lib/jquery.js",
-		uploadProgressPath: "../jquery.uploadProgress.js",
+    /* scripts locations for safari */
+    jqueryPath: "../lib/jquery.js",
+    uploadProgressPath: "../jquery.uploadProgress.js",
     /* function called each time bar is updated */
-		uploading: function(upload) {$('#percents').html(upload.percents+'%');},
-		/* selector or element that will be updated */
-		progressBar: "#progressbar",
-		/* progress reports url in a different domain or subdomain from caller */
-		progressUrl: "uploads.somewhere.com/progress",
+    uploading: function(upload) {$('#percents').html(upload.percents+'%'); $('#progressbar').css({width: upload.percents+'%'});},
+    /* progress reports url in a different domain or subdomain from caller */
+    progressUrl: "uploads.somewhere.com/progress",
     /* how often will bar be updated */
-		interval: 2000,
-		/* use json-p for cross-domain call */
-		dataType: 'jsonp'
-    });
+    interval: 2000,
+    /* use json-p for cross-domain call */
+    dataType: 'jsonp'
+  });
 });
 
 defaults:
 
 interval: 2000
-progressBar: "#progressbar"
 progressUrl: "/progress"
 start: function() {}
 uploading: function() {}
